@@ -8,12 +8,15 @@ const activeCardBackgroundColor = Color(0xFF1D1E33);
 const inActiveCardBackgroundColor = Color(0xFF111328);
 // const cardBackgroundColor = Colors.redAccent;
 
+enum Gender { male, female }
+
 class InputPage extends StatefulWidget {
   @override
   _InputPageState createState() => _InputPageState();
 }
 
 class _InputPageState extends State<InputPage> {
+  Gender selectedGender;
   Color maleCardColor = inActiveCardBackgroundColor;
   Color femaleCardColor = inActiveCardBackgroundColor;
 
@@ -60,12 +63,14 @@ class _InputPageState extends State<InputPage> {
                     child: GestureDetector(
                       onTap: () {
                         setState(() {
-                          updateColor(1);
+                          selectedGender = Gender.male;
                         });
                         print('Male Button tapped');
                       },
                       child: ReusableCard(
-                        colour: inActiveCardBackgroundColor,
+                        colour: selectedGender == Gender.male
+                            ? activeCardBackgroundColor
+                            : inActiveCardBackgroundColor,
                         cardChild: CardWidget(
                           icon: FontAwesomeIcons.mars,
                           label: 'MALE',
@@ -77,11 +82,13 @@ class _InputPageState extends State<InputPage> {
                     child: GestureDetector(
                       onTap: () {
                         setState(() {
-                          updateColor(2);
+                          selectedGender = Gender.female;
                         });
                       },
                       child: ReusableCard(
-                        colour: inActiveCardBackgroundColor,
+                        colour: selectedGender == Gender.female
+                            ? activeCardBackgroundColor
+                            : inActiveCardBackgroundColor,
                         cardChild: CardWidget(
                           icon: FontAwesomeIcons.venus,
                           label: 'FEMALE',
@@ -142,6 +149,7 @@ class CardWidget extends StatelessWidget {
       children: <Widget>[
         Icon(
           icon,
+          color: Colors.white,
           size: 80.0,
         ),
         SizedBox(
