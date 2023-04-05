@@ -1,9 +1,12 @@
 import 'dart:ffi';
-
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
 const cardBackgroundColor = Color(0xFF1E1F32);
+
+const activeCardBackgroundColor = Color(0xFF1D1E33);
+const inActiveCardBackgroundColor = Color(0xFF111328);
+// const cardBackgroundColor = Colors.redAccent;
 
 class InputPage extends StatefulWidget {
   @override
@@ -11,6 +14,34 @@ class InputPage extends StatefulWidget {
 }
 
 class _InputPageState extends State<InputPage> {
+  Color maleCardColor = inActiveCardBackgroundColor;
+  Color femaleCardColor = inActiveCardBackgroundColor;
+
+  //1=male, 2=female
+  void updateColor(int gender) {
+    if (gender == 1) {
+      if (maleCardColor == inActiveCardBackgroundColor) {
+        maleCardColor = activeCardBackgroundColor;
+        femaleCardColor = inActiveCardBackgroundColor;
+        print('Male Activated');
+      } else {
+        maleCardColor = inActiveCardBackgroundColor;
+        print('Male In Activated');
+      }
+    }
+
+    if (gender == 2) {
+      if (femaleCardColor == inActiveCardBackgroundColor) {
+        femaleCardColor = activeCardBackgroundColor;
+        maleCardColor = inActiveCardBackgroundColor;
+        print('Female Activated');
+      } else {
+        femaleCardColor = activeCardBackgroundColor;
+        print('Female In Activated');
+      }
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -23,22 +54,38 @@ class _InputPageState extends State<InputPage> {
           children: [
             Expanded(
               child: Row(
+                crossAxisAlignment: CrossAxisAlignment.center,
                 children: [
                   Expanded(
-                    child: ReusableCard(
-                      colour: cardBackgroundColor,
-                      cardChild: CardWidget(
-                        icon: FontAwesomeIcons.mars,
-                        label: 'MALE',
+                    child: GestureDetector(
+                      onTap: () {
+                        setState(() {
+                          updateColor(1);
+                        });
+                        print('Male Button tapped');
+                      },
+                      child: ReusableCard(
+                        colour: inActiveCardBackgroundColor,
+                        cardChild: CardWidget(
+                          icon: FontAwesomeIcons.mars,
+                          label: 'MALE',
+                        ),
                       ),
                     ),
                   ),
                   Expanded(
-                    child: ReusableCard(
-                      colour: cardBackgroundColor,
-                      cardChild: CardWidget(
-                        icon: FontAwesomeIcons.venus,
-                        label: 'FEMALE',
+                    child: GestureDetector(
+                      onTap: () {
+                        setState(() {
+                          updateColor(2);
+                        });
+                      },
+                      child: ReusableCard(
+                        colour: inActiveCardBackgroundColor,
+                        cardChild: CardWidget(
+                          icon: FontAwesomeIcons.venus,
+                          label: 'FEMALE',
+                        ),
                       ),
                     ),
                   )
@@ -47,7 +94,7 @@ class _InputPageState extends State<InputPage> {
             ),
             Expanded(
               child: ReusableCard(
-                colour: cardBackgroundColor,
+                colour: inActiveCardBackgroundColor,
               ),
             ),
             Expanded(
@@ -55,12 +102,12 @@ class _InputPageState extends State<InputPage> {
                 children: [
                   Expanded(
                     child: ReusableCard(
-                      colour: cardBackgroundColor,
+                      colour: inActiveCardBackgroundColor,
                     ),
                   ),
                   Expanded(
                     child: ReusableCard(
-                      colour: cardBackgroundColor,
+                      colour: inActiveCardBackgroundColor,
                     ),
                   ),
                 ],
@@ -94,14 +141,14 @@ class CardWidget extends StatelessWidget {
       mainAxisAlignment: MainAxisAlignment.center,
       children: <Widget>[
         Icon(
-          FontAwesomeIcons.mars,
+          icon,
           size: 80.0,
         ),
         SizedBox(
           height: 15.0,
         ),
         Text(
-          'FEMALE',
+          label,
           style: TextStyle(
             fontSize: 18.0,
             color: Color(0xFF8D8E98),
@@ -122,6 +169,7 @@ class ReusableCard extends StatelessWidget {
   Widget build(BuildContext context) {
     return Container(
       margin: EdgeInsets.all(15.0),
+      child: cardChild,
       decoration: BoxDecoration(
         color: colour,
         borderRadius: BorderRadius.circular(10.0),
