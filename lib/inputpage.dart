@@ -17,33 +17,6 @@ class InputPage extends StatefulWidget {
 
 class _InputPageState extends State<InputPage> {
   Gender selectedGender;
-  Color maleCardColor = inActiveCardBackgroundColor;
-  Color femaleCardColor = inActiveCardBackgroundColor;
-
-  //1=male, 2=female
-  void updateColor(int gender) {
-    if (gender == 1) {
-      if (maleCardColor == inActiveCardBackgroundColor) {
-        maleCardColor = activeCardBackgroundColor;
-        femaleCardColor = inActiveCardBackgroundColor;
-        print('Male Activated');
-      } else {
-        maleCardColor = inActiveCardBackgroundColor;
-        print('Male In Activated');
-      }
-    }
-
-    if (gender == 2) {
-      if (femaleCardColor == inActiveCardBackgroundColor) {
-        femaleCardColor = activeCardBackgroundColor;
-        maleCardColor = inActiveCardBackgroundColor;
-        print('Female Activated');
-      } else {
-        femaleCardColor = activeCardBackgroundColor;
-        print('Female In Activated');
-      }
-    }
-  }
 
   @override
   Widget build(BuildContext context) {
@@ -60,39 +33,36 @@ class _InputPageState extends State<InputPage> {
                 crossAxisAlignment: CrossAxisAlignment.center,
                 children: [
                   Expanded(
-                    child: GestureDetector(
-                      onTap: () {
+                    child: ReusableCard(
+                      onPress: () {
                         setState(() {
                           selectedGender = Gender.male;
                         });
                         print('Male Button tapped');
                       },
-                      child: ReusableCard(
-                        colour: selectedGender == Gender.male
-                            ? activeCardBackgroundColor
-                            : inActiveCardBackgroundColor,
-                        cardChild: CardWidget(
-                          icon: FontAwesomeIcons.mars,
-                          label: 'MALE',
-                        ),
+                      colour: selectedGender == Gender.male
+                          ? activeCardBackgroundColor
+                          : inActiveCardBackgroundColor,
+                      cardChild: CardWidget(
+                        icon: FontAwesomeIcons.mars,
+                        label: 'MALE',
                       ),
                     ),
                   ),
                   Expanded(
-                    child: GestureDetector(
-                      onTap: () {
+                    child: ReusableCard(
+                      onPress: () {
                         setState(() {
                           selectedGender = Gender.female;
                         });
+                        print('Female Button tapped');
                       },
-                      child: ReusableCard(
-                        colour: selectedGender == Gender.female
-                            ? activeCardBackgroundColor
-                            : inActiveCardBackgroundColor,
-                        cardChild: CardWidget(
-                          icon: FontAwesomeIcons.venus,
-                          label: 'FEMALE',
-                        ),
+                      colour: selectedGender == Gender.female
+                          ? activeCardBackgroundColor
+                          : inActiveCardBackgroundColor,
+                      cardChild: CardWidget(
+                        icon: FontAwesomeIcons.venus,
+                        label: 'FEMALE',
                       ),
                     ),
                   )
@@ -168,19 +138,23 @@ class CardWidget extends StatelessWidget {
 }
 
 class ReusableCard extends StatelessWidget {
-  ReusableCard({@required this.colour, this.cardChild});
+  ReusableCard({@required this.colour, this.cardChild, this.onPress});
 
   final Color colour;
   final Widget cardChild;
+  Function onPress;
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      margin: EdgeInsets.all(15.0),
-      child: cardChild,
-      decoration: BoxDecoration(
-        color: colour,
-        borderRadius: BorderRadius.circular(10.0),
+    return GestureDetector(
+      onTap: onPress,
+      child: Container(
+        margin: EdgeInsets.all(15.0),
+        child: cardChild,
+        decoration: BoxDecoration(
+          color: colour,
+          borderRadius: BorderRadius.circular(10.0),
+        ),
       ),
     );
   }
