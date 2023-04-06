@@ -1,12 +1,7 @@
 import 'dart:ffi';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
-
-const cardBackgroundColor = Color(0xFF1E1F32);
-
-const activeCardBackgroundColor = Color(0xFF1D1E33);
-const inActiveCardBackgroundColor = Color(0xFF111328);
-// const cardBackgroundColor = Colors.redAccent;
+import 'constants.dart';
 
 enum Gender { male, female }
 
@@ -17,6 +12,8 @@ class InputPage extends StatefulWidget {
 
 class _InputPageState extends State<InputPage> {
   Gender selectedGender;
+
+  int height = 180;
 
   @override
   Widget build(BuildContext context) {
@@ -41,8 +38,8 @@ class _InputPageState extends State<InputPage> {
                         print('Male Button tapped');
                       },
                       colour: selectedGender == Gender.male
-                          ? activeCardBackgroundColor
-                          : inActiveCardBackgroundColor,
+                          ? kActiveCardBackgroundColor
+                          : kInActiveCardBackgroundColor,
                       cardChild: CardWidget(
                         icon: FontAwesomeIcons.mars,
                         label: 'MALE',
@@ -58,8 +55,8 @@ class _InputPageState extends State<InputPage> {
                         print('Female Button tapped');
                       },
                       colour: selectedGender == Gender.female
-                          ? activeCardBackgroundColor
-                          : inActiveCardBackgroundColor,
+                          ? kActiveCardBackgroundColor
+                          : kInActiveCardBackgroundColor,
                       cardChild: CardWidget(
                         icon: FontAwesomeIcons.venus,
                         label: 'FEMALE',
@@ -71,7 +68,44 @@ class _InputPageState extends State<InputPage> {
             ),
             Expanded(
               child: ReusableCard(
-                colour: inActiveCardBackgroundColor,
+                colour: kInActiveCardBackgroundColor,
+                cardChild: Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  // crossAxisAlignment: CrossAxisAlignment.stretch,
+                  children: [
+                    Text(
+                      'Height',
+                      style: kLabelTextStyle,
+                    ),
+                    Row(
+                      crossAxisAlignment: CrossAxisAlignment.baseline,
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      textBaseline: TextBaseline.alphabetic,
+                      children: [
+                        Text(
+                          height.toString(),
+                          style: kHeavyTextStyle,
+                        ),
+                        Text(
+                          'cm',
+                          style: kHeavyTextStyle,
+                        ),
+                      ],
+                    ),
+                    Slider(
+                      value: height.toDouble(),
+                      min: 120.0,
+                      max: 220.0,
+                      activeColor: Color(0xFFEB1555),
+                      inactiveColor: Color(0xFF8B8E98),
+                      onChanged: (double newValue) {
+                        setState(() {
+                          height = newValue.round();
+                        });
+                      },
+                    ),
+                  ],
+                ),
               ),
             ),
             Expanded(
@@ -79,12 +113,12 @@ class _InputPageState extends State<InputPage> {
                 children: [
                   Expanded(
                     child: ReusableCard(
-                      colour: inActiveCardBackgroundColor,
+                      colour: kInActiveCardBackgroundColor,
                     ),
                   ),
                   Expanded(
                     child: ReusableCard(
-                      colour: inActiveCardBackgroundColor,
+                      colour: kInActiveCardBackgroundColor,
                     ),
                   ),
                 ],
