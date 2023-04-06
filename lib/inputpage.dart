@@ -14,6 +14,8 @@ class _InputPageState extends State<InputPage> {
   Gender selectedGender;
 
   int height = 180;
+  int weight = 60;
+  int age = 25;
 
   @override
   Widget build(BuildContext context) {
@@ -125,11 +127,85 @@ class _InputPageState extends State<InputPage> {
                   Expanded(
                     child: ReusableCard(
                       colour: kInActiveCardBackgroundColor,
+                      cardChild: Column(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          Text(
+                            'WEIGHT',
+                            style: kLabelTextStyle,
+                          ),
+                          Text(
+                            weight.toString(),
+                            style: kHeavyTextStyle,
+                          ),
+                          Row(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: [
+                              FloatingActionButton(
+                                onPressed: () {
+                                  setState(() {
+                                    weight--;
+                                  });
+                                },
+                                child: Icon(FontAwesomeIcons.minus),
+                              ),
+                              SizedBox(
+                                width: 10.0,
+                              ),
+                              FloatingActionButton(
+                                onPressed: () {
+                                  setState(() {
+                                    weight++;
+                                  });
+                                },
+                                child: Icon(FontAwesomeIcons.plus),
+                              ),
+                            ],
+                          )
+                        ],
+                      ),
                     ),
                   ),
                   Expanded(
                     child: ReusableCard(
                       colour: kInActiveCardBackgroundColor,
+                      cardChild: Column(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          Text(
+                            'AGE',
+                            style: kLabelTextStyle,
+                          ),
+                          Text(
+                            age.toString(),
+                            style: kHeavyTextStyle,
+                          ),
+                          Row(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: [
+                              FloatingActionButton(
+                                onPressed: () {
+                                  setState(() {
+                                    age--;
+                                  });
+                                },
+                                child: Icon(FontAwesomeIcons.minus),
+                              ),
+                              SizedBox(
+                                width: 10.0,
+                              ),
+                              FloatingActionButton(
+                                onPressed: () {
+                                  setState(() {
+                                    age++;
+                                  });
+                                },
+                                child: Icon(FontAwesomeIcons.plus),
+                              ),
+                            ],
+                          )
+                        ],
+                      ),
                     ),
                   ),
                 ],
@@ -202,5 +278,17 @@ class ReusableCard extends StatelessWidget {
         ),
       ),
     );
+  }
+}
+
+class RoundIconWidget extends StatefulWidget {
+  @override
+  State<RoundIconWidget> createState() => _RoundIconWidgetState();
+}
+
+class _RoundIconWidgetState extends State<RoundIconWidget> {
+  @override
+  Widget build(BuildContext context) {
+    return const Placeholder();
   }
 }
